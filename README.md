@@ -1,1 +1,1 @@
-# Think twice, Code once
+Think twice, code once.
