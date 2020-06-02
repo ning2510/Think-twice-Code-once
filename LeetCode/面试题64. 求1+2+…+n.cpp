@@ -10,7 +10,7 @@ public:
     }
 };
 
-/* 方法二：快速乘
+// 快速乘  使用while循环，不适用本题
 class Solution {
 public:
     int ksc(int a, int b) {
@@ -26,4 +26,4 @@ public:
     int sumNums(int n) {
         return (ksc(1 + n, n) >> 1);
     }
-};*/
+};
