@@ -10,7 +10,7 @@ public:
     }
 };
 
-// 快速乘  使用while循环，不适用本题
+// 快速乘 使用while循环，不适用本题
 class Solution {
 public:
     int ksc(int a, int b) {
