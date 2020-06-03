@@ -13,4 +13,4 @@ public:
         if(nums[4] - nums[sum]  + 1 <= 5) return true;
         return false;
     }
-};
+}; 
