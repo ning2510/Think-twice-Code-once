@@ -3,6 +3,7 @@
 # 方法一 4ms
 awk '{if(NR==10){print $0}}' file.txt
 # NR：表示awk开始执行程序后所读取的数据行数。
+# $0: 在awk命令中表示所有内容，在别的地方表示文件名
 
 # 方法二 0ms
 grep -n "" file.txt | grep -w "10" | cut -d ":" -f 2
