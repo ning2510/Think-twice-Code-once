@@ -9,7 +9,7 @@
  */
 class Solution {
 public:
-    int find_right_min(TreeNode* now) {
+    int find_left_min(TreeNode* now) {
         TreeNode* par = now;
         now = now->right;
         while(now) {
@@ -25,14 +25,13 @@ public:
         return 0;
     }
 
-    int find_left_max(TreeNode* now) {
+    int find_right_max(TreeNode* now) {
         TreeNode* par = now;
         now = now->left;
         while(now) {
             if(now->right == NULL) {
                 if(par->left == now) par->left = now->left;
                 else par->right = now->left;
-
                 int cur = now->val;
                 return cur;
             }
@@ -46,7 +45,7 @@ public:
         if(!root) return NULL;
         if(!root->left && !root->right) {
             if(root->val == key) return NULL;
-            else root;
+            else return root;
         }
         TreeNode* now = root;
         TreeNode* par = root;
@@ -58,11 +57,11 @@ public:
                     break;
                 }
                 if(now->right) {
-                    int cnt = find_right_min(now);
+                    int cnt = find_left_min(now);
                     now->val = cnt;
                 }
                 else if(now->left) {
-                    int cnt = find_left_max(now);
+                    int cnt = find_right_max(now);
                     now->val = cnt;
                 }
                 break;
