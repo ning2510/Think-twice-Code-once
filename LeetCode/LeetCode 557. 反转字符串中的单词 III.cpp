@@ -16,7 +16,7 @@ public:
         if(s[n - 1] != ' ') {
             reverse(ss.begin(), ss.end());
             ans += ss;
-        }
+        } 
         return ans;
     }
 };
