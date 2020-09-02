@@ -1,44 +1,44 @@
 class Solution {
 public:
-    bool judge(string s, int flag) {
-        //cout << s << endl;
-        int l = 0, r = s.size() - 1, vis = 0;
-        int sum1 = 0, sume = 0, sum = 0, sum2 = 0, sum3 = 0;
-        for(int i = l; i <= r; i++) {
-            if(s[i] == '.') sum1++;
-            else if(s[i] == 'e') sume++;
-            else if(s[i] == '+') sum2++;
-            else if(s[i] == '-') sum3++;
-            else if(s[i] < '0' || s[i] > '9') {
-                sum++;
-            }
-            if(s[i] >= '0' && s[i] <= '9' && !vis) {
-                vis = 1;
-            }
-        }
-        //cout << sum1 << ' ' << sum2 << ' ' << sum3 << ' ' << sum3 << ' ' << sume << ' ' << sum << endl;
-        if(sum1 > 1 || sum2 > 1 || sum3 > 1 || sume || sum || (flag && sum1)) return false;
-        if((sum2 && s[l] != '+') || (sum3 && s[l] != '-')) return false;
-        if(!vis) return false;
-        return true;
+    bool isNumber(string s) {
+        auto i = s.find_first_not_of(' ');//第一个不是空格的位置
+        if(i == s.npos)return false;
+        auto j = s.find_last_not_of(' ');//最后一个不是空格的位置
+        s = s.substr(i, j - i + 1);//去除首尾空格
+        if(s.empty()) return false;
+
+        auto k = s.find_first_of('E');
+        if(k != s.npos)   s[k] = 'e';//大写转小写
+  
+        int pos = s.find('e');
+        if(pos == s.npos) return judgeLeft(s);//没有e
+        return judgeLeft(s.substr(0, pos)) && judgeRight(s.substr(pos + 1));
     }
 
-    bool isNumber(string s) {
-        int n = s.size();
-        if(!n) return false;
-        int x, flag = 0, vis = 0, l = 0, r = s.size() - 1;
-        for(int i = l; i <= r; i++) {
-            if(s[i] == 'e') {
-                x = i;
-                flag = 1;
+    bool judgeLeft(string s) {
+        if(s.empty()) return false;
+        if(s[0] == '+' || s[0] == '-') s.erase(0, 1);
+        bool flag = false;
+        for(int i = 0; i < s.size(); i++) {
+            if(isdigit(s[i])) continue;
+            //符号位只能在第一位
+            if(s[i] == '.') {
+                if(flag) return false;//有多个小数点，返回false
+                flag = true;//记录已经有一个小数点
             }
-            if(s[i] >= '0' && s[i] <= '9') vis = 1;
+            else return false;
         }
-        if(!vis) return false;
-        while(s[l] == ' ') l++;
-        while(s[r] == ' ') r--;
-        if(flag && (s[l] == 'e' || s[r] == 'e')) return false;
-        if(flag) return judge(s.substr(l, x - l), 0) && judge(s.substr(x + 1, r - x), 1);
-        return judge(s.substr(l, r - l + 1), 0);
+        return !s.empty() && s != ".";
+    }
+
+    bool judgeRight(string s) { 
+        //cout << s << endl;
+        if(s.empty()) return false;
+        if(s[0] == '+' || s[0] == '-') s.erase(0, 1);
+        //右边不能出现小数点，所以出现除符号位的非纯数字表示指数不合法
+        for(int i = 0; i < s.size(); i++) {
+            if(!isdigit(s[i])) return false;
+        }
+        return !s.empty();
     }
 };
