@@ -1,52 +1,50 @@
 class Solution {
 public:
-    vector<vector<string>> solveNQueens(int n) {
-        auto solutions = vector<vector<string>>();
-        auto queens = vector<int>(n, -1);
-        auto columns = unordered_set<int>();
-        auto diagonals1 = unordered_set<int>();
-        auto diagonals2 = unordered_set<int>();
-        backtrack(solutions, queens, n, 0, columns, diagonals1, diagonals2);
-        return solutions;
+    int m;
+    int a[1005], b[1005], c[1005], d[1005];
+    string ss;
+    vector <vector<string>> ans;
+
+    void print() {
+        cout << 1 << endl;
+        vector <string> q;
+        for(int i = 1; i <= m; i++) {
+            string p = ss;
+            p[a[i] - 1] = 'Q';
+            q.push_back(p);
+        }
+        cout << endl;
+        ans.push_back(q);
+        return ;
     }
 
-    void backtrack(vector<vector<string>> &solutions, vector<int> &queens, int n, int row, unordered_set<int> &columns, unordered_set<int> &diagonals1, unordered_set<int> &diagonals2) {
-        if (row == n) {
-            vector<string> board = generateBoard(queens, n);
-            solutions.push_back(board);
-        } else {
-            for (int i = 0; i < n; i++) {
-                if (columns.find(i) != columns.end()) {
-                    continue;
-                }
-                int diagonal1 = row - i;
-                if (diagonals1.find(diagonal1) != diagonals1.end()) {
-                    continue;
-                }
-                int diagonal2 = row + i;
-                if (diagonals2.find(diagonal2) != diagonals2.end()) {
-                    continue;
-                }
-                queens[row] = i;
-                columns.insert(i);
-                diagonals1.insert(diagonal1);
-                diagonals2.insert(diagonal2);
-                backtrack(solutions, queens, n, row + 1, columns, diagonals1, diagonals2);
-                queens[row] = -1;
-                columns.erase(i);
-                diagonals1.erase(diagonal1);
-                diagonals2.erase(diagonal2);
+    void dfs(int i) {
+        if(i > m) {
+            print();
+            return ;
+        }
+        for(int j = 1; j <= m; j++) {
+            if((!b[j]) && (!c[i + j]) && (!d[i - j + m])) {
+                a[i] = j;
+                b[j] = 1;
+                c[i + j] = 1;
+                d[i - j + m] = 1;
+                dfs(i + 1);
+                b[j] = 0;
+                c[i + j] = 0;
+                d[i - j + m] = 0;
             }
         }
+        return ;
     }
 
-    vector<string> generateBoard(vector<int> &queens, int n) {
-        auto board = vector<string>();
-        for (int i = 0; i < n; i++) {
-            string row = string(n, '.');
-            row[queens[i]] = 'Q';
-            board.push_back(row);
-        }
-        return board;
+    vector<vector<string>> solveNQueens(int n) {
+        m = n;
+        for(int i = 0; i < n; i++) ss += '.';
+        memset(b, 0, sizeof(b));
+        memset(c, 0, sizeof(c));
+        memset(d, 0, sizeof(d));
+        dfs(1);
+        return ans;
     }
 };
