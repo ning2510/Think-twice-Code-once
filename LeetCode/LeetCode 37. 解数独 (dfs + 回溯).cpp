@@ -60,6 +60,5 @@ public:
                 break;
             }
         }
-        cout << ans << endl;
     }
 };
