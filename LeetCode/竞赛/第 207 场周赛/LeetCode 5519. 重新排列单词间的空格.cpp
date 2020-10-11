@@ -17,7 +17,6 @@ public:
             }
         }
         if(flag) word++;
-        //cout << kg << ' ' << word << endl;
         if(word == 1) {
             for(int i = 1; i <= kg; i++) m += ' ';
             return m;
